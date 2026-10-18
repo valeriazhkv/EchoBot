@@ -18,7 +18,7 @@ public class vldlr extends TelegramLongPollingBot {
      */
     @Override
     public String getBotUsername() {
-        return BotConfig.getBotUsername(); //[cite: 1, 5]
+        return BotConfig.getBotUsername();
     }
 
     /**
@@ -27,7 +27,7 @@ public class vldlr extends TelegramLongPollingBot {
      */
     @Override
     public String getBotToken() {
-        return BotConfig.getBotToken(); //[cite: 1, 5]
+        return BotConfig.getBotToken();
     }
 
     /**
@@ -37,20 +37,20 @@ public class vldlr extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
-            long chatId = update.getMessage().getChatId(); //[cite: 5]
-            String userText = update.getMessage().getText(); //[cite: 5]
+            long chatId = update.getMessage().getChatId();
+            String userText = update.getMessage().getText();
 
             // Получаем универсальный текстовый ответ от бизнес-логики
             String responseText = botLogic.handleMessage(userText);
 
             SendMessage message = new SendMessage();
-            message.setChatId(String.valueOf(chatId)); //[cite: 5]
+            message.setChatId(String.valueOf(chatId));
             message.setText(responseText);
 
             try {
-                execute(message); //[cite: 5]
+                execute(message);
             } catch (TelegramApiException e) {
-                e.printStackTrace(); //[cite: 5]
+                e.printStackTrace();
             }
         }
     }
