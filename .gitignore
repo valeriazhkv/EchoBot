@@ -1,6 +1,10 @@
 # скрыть
 src/main/resources/config.properties
 
+# база данных
+echobot.db
+*.db
+
 # Maven
 target/
 
