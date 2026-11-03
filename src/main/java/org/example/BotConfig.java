@@ -17,7 +17,7 @@ public class BotConfig {
      * Статический блок инициализации: один раз при загрузке класса читает
      * {@code config.properties} из ресурсов.
      */
-    static {
+    public BotConfig() {
         try (InputStream input = BotConfig.class
                 .getClassLoader()
                 .getResourceAsStream("config.properties")) {
