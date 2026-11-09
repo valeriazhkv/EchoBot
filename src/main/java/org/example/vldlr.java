@@ -11,14 +11,14 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 public class vldlr extends TelegramLongPollingBot {
 
     private final BotLogic botLogic = new BotLogic();
-
+    private final BotConfig config = new BotConfig();
     /**
      * Возвращает имя бота из конфигурации.
      * @return имя бота
      */
     @Override
     public String getBotUsername() {
-        return BotConfig.getBotUsername();
+        return config.getBotUsername();
     }
 
     /**
@@ -27,7 +27,7 @@ public class vldlr extends TelegramLongPollingBot {
      */
     @Override
     public String getBotToken() {
-        return BotConfig.getBotToken();
+        return config.getBotToken();
     }
 
     /**
