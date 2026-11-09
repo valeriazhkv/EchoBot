@@ -11,7 +11,7 @@ import java.util.Properties;
 public class BotConfig {
 
     /** Набор свойств, загруженных из файла {@code config.properties}. */
-    private static final Properties props = new Properties();
+    private final Properties props = new Properties();
 
     /**
      * Статический блок инициализации: один раз при загрузке класса читает
@@ -36,7 +36,7 @@ public class BotConfig {
      * Возвращает токен бота из конфигурации.
      * @return токен бота (значение свойства {@code bot.token})
      */
-    public static String getBotToken() {
+    public String getBotToken() {
         return props.getProperty("bot.token");
     }
 
@@ -44,7 +44,7 @@ public class BotConfig {
      * Возвращает имя пользователя бота из конфигурации.
      * @return имя бота (значение свойства {@code bot.username})
      */
-    public static String getBotUsername() {
+    public String getBotUsername() {
         return props.getProperty("bot.username");
     }
 }
