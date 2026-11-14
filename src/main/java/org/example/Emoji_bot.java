@@ -8,7 +8,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 /**
  * Основной класс Telegram-бота, обрабатывающий входящие обновления методом длинного поллинга.
  */
-public class Vldlr extends TelegramLongPollingBot {
+public class Emoji_bot extends TelegramLongPollingBot {
 
     private final BotLogic botLogic = new BotLogic();
     private final BotConfig config = new BotConfig();

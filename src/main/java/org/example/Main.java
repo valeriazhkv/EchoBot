@@ -15,7 +15,7 @@ public class Main {
     public static void main(String[] args) {
         try {
             TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
-            botsApi.registerBot(new vldlr());
+            botsApi.registerBot(new Emoji_bot());
             System.out.println("Бот успешно запущен!");
         } catch (TelegramApiException e) {
             e.printStackTrace();
