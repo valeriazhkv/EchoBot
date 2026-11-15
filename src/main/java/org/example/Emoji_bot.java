@@ -50,6 +50,7 @@ public class Emoji_bot extends TelegramLongPollingBot {
             try {
                 execute(message);
             } catch (TelegramApiException e) {
+                System.err.println("Не удалось отправить сообщение в чат " + chatId + ": " + e.getMessage());
                 e.printStackTrace();
             }
         }
