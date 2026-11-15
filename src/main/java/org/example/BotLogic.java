@@ -1,33 +1,80 @@
+
 package org.example;
 
-/**
- * Универсальный класс бизнес-логики для обработки текстовых сообщений.
- */
-public class BotLogic {
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-    /** Текст справки и приветствия. */
-    private static final String HELP_TEXT = "Здравствуйте! Это кросс-платформенный бот-помощник.\n" +
-            "Отправьте мне любое сообщение, и я обработаю его.";
+public class BotLogic {
+    private final RandomProcess randomProcess = new RandomProcess();
+    private final Map<Long, List<String>> activeGames = new HashMap<>();
 
     /**
      * Обрабатывает входящий текст и возвращает текстовый ответ.
+     *
+     * @param chatId идентификатор чата пользователя
      * @param text входящий текст
      * @return строка с ответом для пользователя
      */
-    public String handleMessage(String text) {
-        // 1. Проверка на пустое сообщение или пробелы
+    public String handleMessage(long chatId, String text) {
         if (text == null || text.isBlank()) {
             return "Получено пустое сообщение. Пожалуйста, введите текст.";
         }
 
         String trimmed = text.trim();
 
-        // 2. Проверка на команды /start и /help
-        if ("/start".equals(trimmed) || "/help".equals(trimmed)) {
-            return HELP_TEXT;
+        if (trimmed.equals("/start")) {
+            return "Здравствуйте! Это эмодзи бот. Вам нужно угадать правильный порядок эмодзи. Используйте /help чтобы увидеть список команд.";
         }
 
-        // 3. Ответ на обычный текст
-        return "Эхо-ответ: " + trimmed;
+        if (trimmed.equals("/help")) {
+            return "Доступные команды:\n" +
+                    "/start — Запустить бота\n" +
+                    "/play — Начать игру\n" +
+                    "/giveup — Сдаться и увидеть правильный порядок";
+        }
+        if (trimmed.equals("/play")) {
+            if (activeGames.containsKey(chatId)) {
+                return "Игра уже идёт. Присылайте ответ или сдавайтесь: /giveup";
+            }
+
+            List<String> emojiSecret = randomProcess.getShuffledArray();
+            activeGames.put(chatId, emojiSecret);
+
+            String formattedEmoji = String.join(" ", emojiSecret);
+
+            return "Набор: " + "\uD83C\uDF4E \uD83D\uDE80 \uD83D\uDC31 \uD83C\uDFB8 \uD83C\uDF19" +
+                    "\nЯ загадал их порядок. Пришлите все пять эмодзи " +
+                    "в том порядке, который считаете верным.";
+        }
+
+
+        if (trimmed.equals("/giveup")) {
+
+            if (!activeGames.containsKey(chatId)) {
+                return "Игра не начата. Начните новую: /play";
+            }
+
+            List<String> emojiSecret = activeGames.remove(chatId);
+
+            String formattedEmoji = String.join(" ", emojiSecret);
+
+            return "Вы сдались. Загаданный порядок: " +
+                    formattedEmoji + "\nНовая игра: /play";
+        }
+        if (!activeGames.containsKey(chatId)) {
+            return "Игра не начата. Начните новую: /play";
+        }
+
+        List<String> emojiSecret = activeGames.get(chatId);
+
+        String validationResult =
+                randomProcess.validateOrder(trimmed, emojiSecret);
+
+
+        if (validationResult.contains("Вы победили!")) {
+            activeGames.remove(chatId);
+        }
+        return validationResult;
     }
 }

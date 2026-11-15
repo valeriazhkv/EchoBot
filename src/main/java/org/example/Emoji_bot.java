@@ -8,7 +8,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 /**
  * Основной класс Telegram-бота, обрабатывающий входящие обновления методом длинного поллинга.
  */
-public class vldlr extends TelegramLongPollingBot {
+public class Emoji_bot extends TelegramLongPollingBot {
 
     private final BotLogic botLogic = new BotLogic();
     private final BotConfig config = new BotConfig();
@@ -41,7 +41,7 @@ public class vldlr extends TelegramLongPollingBot {
             String userText = update.getMessage().getText();
 
             // Получаем универсальный текстовый ответ от бизнес-логики
-            String responseText = botLogic.handleMessage(userText);
+            String responseText = botLogic.handleMessage(chatId, userText);
 
             SendMessage message = new SendMessage();
             message.setChatId(String.valueOf(chatId));
