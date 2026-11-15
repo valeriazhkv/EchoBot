@@ -38,4 +38,9 @@ class BotLogicTest {
         String response = botLogic.handleMessage(CHAT_ID, "   ");
         Assertions.assertEquals("Получено пустое сообщение. Пожалуйста, введите текст.", response);
     }
+    @Test
+    void testHelpCommand() {
+        String response = botLogic.handleMessage(CHAT_ID, "/help");
+        Assertions.assertTrue(response.contains("Доступные команды:"));
+    }
 }
