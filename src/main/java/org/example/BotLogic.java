@@ -5,17 +5,38 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+/**
+ * Логика бота с игрой
+ * Класс обрабатывает входящие сообщения, хранит состояние активных игр
+ * для каждого чата и взаимодействует с {@link RandomProcess} для генерации
+ * и проверки загаданного порядка эмодзи.
+ */
 public class BotLogic {
-    private final RandomProcess randomProcess = new RandomProcess();
+    private final RandomProcess randomProcess;
+
+    /**
+     * Активные игры по идентификатору чата.
+     * Ключ - {@code chatId}, значение - загаданный порядок эмодзи.
+     * Запись добавляется при {@code /play}, удаляется при победе
+     * или при {@code /giveup}.
+     */
     private final Map<Long, List<String>> activeGames = new HashMap<>();
+
+    public BotLogic() {
+        this(new RandomProcess());
+    }
+
+    /** Конструктор для тестов: позволяет подставить заглушку. */
+    public BotLogic(RandomProcess randomProcess) {
+        this.randomProcess = randomProcess;
+    }
 
     /**
      * Обрабатывает входящий текст и возвращает текстовый ответ.
      *
      * @param chatId идентификатор чата пользователя
-     * @param text входящий текст
-     * @return строка с ответом для пользователя
-     */
+     * @param text входящий текст     */
     public String handleMessage(long chatId, String text) {
         if (text == null || text.isBlank()) {
             return "Получено пустое сообщение. Пожалуйста, введите текст.";
@@ -40,8 +61,6 @@ public class BotLogic {
 
             List<String> emojiSecret = randomProcess.getShuffledArray();
             activeGames.put(chatId, emojiSecret);
-
-            String formattedEmoji = String.join(" ", emojiSecret);
 
             return "Набор: " + "\uD83C\uDF4E \uD83D\uDE80 \uD83D\uDC31 \uD83C\uDFB8 \uD83C\uDF19" +
                     "\nЯ загадал их порядок. Пришлите все пять эмодзи " +
