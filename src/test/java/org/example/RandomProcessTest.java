@@ -30,8 +30,7 @@ public class RandomProcessTest {
     @Test
     void testValidateOrder_Win() {
         String result = process.validateOrder("🍎🚀🐱🎸🌙", correctOrder);
-        Assertions.assertTrue(result.contains("5 из 5"));
-        Assertions.assertTrue(result.contains("победили"));
+        Assertions.assertEquals("5 из 5! Вы победили! Новая игра: /play", result);
     }
 
     /**
@@ -40,7 +39,7 @@ public class RandomProcessTest {
     @Test
     void testValidateOrder_Spaces_Win() {
         String result = process.validateOrder("🍎 🚀 🐱 🎸 🌙", correctOrder);
-        Assertions.assertTrue(result.contains("победили"));
+        Assertions.assertEquals("5 из 5! Вы победили! Новая игра: /play", result);
     }
 
     /**
@@ -58,7 +57,7 @@ public class RandomProcessTest {
     @Test
     void testValidateOrder_Symbols() {
         String result = process.validateOrder("🍎🚀🐱🎸🍕", correctOrder);
-        Assertions.assertTrue(result.contains("посторонние символы"));
+        Assertions.assertEquals("В вашем сообщении содержатся посторонние символы. Используйте только заданные эмодзи!", result);
     }
 
     /**
@@ -67,7 +66,7 @@ public class RandomProcessTest {
     @Test
     void testValidateOrder_Length() {
         String result = process.validateOrder("🍎🚀🐱", correctOrder);
-        Assertions.assertTrue(result.contains("Нужно прислать все эмодзи"));
+        Assertions.assertEquals("Нужно прислать все эмодзи из набора, каждый по одному разу" ,result);
     }
 
     /**
@@ -77,7 +76,7 @@ public class RandomProcessTest {
     void testValidateOrder_Duplicate() {
         // Длина верная, но есть дубликат 🍎 и нет 🎸
         String result = process.validateOrder("🍎🍎🚀🐱🌙", correctOrder);
-        Assertions.assertTrue(result.contains("только один раз"));
+        Assertions.assertEquals("Каждый эмодзи можно использовать только один раз!" ,result);
     }
 
     /**
