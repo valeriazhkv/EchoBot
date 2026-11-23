@@ -12,28 +12,17 @@ public class Emoji_bot extends TelegramLongPollingBot {
 
     private final BotLogic botLogic = new BotLogic();
     private final BotConfig config = new BotConfig();
-    /**
-     * Возвращает имя бота из конфигурации.
-     * @return имя бота
-     */
+
     @Override
     public String getBotUsername() {
         return config.getBotUsername();
     }
 
-    /**
-     * Возвращает токен бота из конфигурации.
-     * @return токен бота
-     */
     @Override
     public String getBotToken() {
         return config.getBotToken();
     }
 
-    /**
-     * Обрабатывает входящие обновления (сообщения) от пользователей Telegram.
-     * @param update объект обновления Telegram
-     */
     @Override
     public void onUpdateReceived(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
